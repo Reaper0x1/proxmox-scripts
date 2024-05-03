@@ -14,7 +14,7 @@ read -r update_local
 
 if [[ $update_local == "y" || $update_local == "Y" ]]; then
 	echo "# Updating reaperx starship.toml file of: $(hostname)"
-	curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/lxc-container-init/main/starship.toml
+	curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/proxmox-scripts/main/starship.toml
 	echo "# Updating root starship.toml file of: $(hostname)"
 	cp $CONFIG_FOLDER/starship.toml $ROOT_CONFIG_FOLDER/starship.toml
 	echo "# Update of $(hostname) completed"
@@ -35,7 +35,7 @@ if [[ $containers_num == "1" ]]; then
 
 	if [[ $update_one == "y" || $update_one == "Y" ]]; then
 		echo "# Updating reaperx starship.toml file of container: $container_id [$current_container]"
-		pct exec $container_id -- curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/lxc-container-init/main/starship.toml
+		pct exec $container_id -- curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/proxmox-scripts/main/starship.toml
 		echo "# Updating root starship.toml file of container: $container_id [$current_container]"
 		pct exec $container_id -- cp $CONFIG_FOLDER/starship.toml $ROOT_CONFIG_FOLDER/starship.toml
 	else
@@ -89,7 +89,7 @@ for lxc in $CONTAINER_TO_UPDATE
 do
 	current_container=$(echo "$LXC_LIST" | grep $lxc | awk '{print $3}')
 	echo "# Updating reaperx starship.toml file of container: $lxc [$current_container]"
-        pct exec $lxc -- curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/lxc-container-init/main/starship.toml
+        pct exec $lxc -- curl -o $CONFIG_FOLDER/starship.toml https://raw.githubusercontent.com/Reaper0x1/proxmox-scripts/main/starship.toml
 	echo "# Updating root starship.toml file of container: $lxc [$current_container]"
 	pct exec $lxc -- cp $CONFIG_FOLDER/starship.toml $ROOT_CONFIG_FOLDER/starship.toml
 done
