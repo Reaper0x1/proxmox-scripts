@@ -6,7 +6,8 @@ WAZUH_MANAGER_CONTAINER=107
 for CONTAINER in ${CONTAINERS[@]}
 do
     has_agent=$(pct exec $CONTAINER -- test -d /var/ossec && echo "yes" || echo "no")
-    if [[ $has_agent == "yes" && $CONTAINER != $WAZUH_MANAGER_CONTAINER ]]; then
+    has_docker=$(pct exec $CONTAINER -- docker --version && echo "yes" || echo "no")
+    if [[ $has_agent == "yes" && $CONTAINER != $WAZUH_MANAGER_CONTAINER && !$has_docker ]]; then
 
         echo "# Configuring $CONTAINER -----------------------------------------------------------------------------------"
         sleep 1
