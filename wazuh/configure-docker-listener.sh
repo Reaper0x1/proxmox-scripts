@@ -18,19 +18,20 @@ do
         pct exec $CONTAINER -- apt update
         pct exec $CONTAINER -- apt install python3 -y
         pct exec $CONTAINER -- apt install python3-pip -y
-        
-        has_docker_module=$(pct exec $CONTAINER -- pip show docker 2>/dev/null && echo "yes" || echo "no")
-        if [[ has_docker_module ]]; then
+
+        has_docker_module=$(pct exec $CONTAINER -- pip show docker &>/dev/null && echo "yes" || echo "no")
+        echo "Has docker module installed: $has_docker_module"
+
+        if [[ $has_docker_module == "no" ]]; then
             echo "# [$CONTAINER] - Installing python docker module..."
-            pct exec $CONTAINER -- pip3 install docker==4.2.0 
+            pct exec $CONTAINER -- pip3 install docker==4.2.0
         else
             echo "# [$CONTAINER] - Python docker module already installed"
             sleep 1
         fi
-        
 
         echo "# [$CONTAINER] - Enabling the Wazuh agent to receive remote commands from the Wazuh server..."
-        pct exec $CONTAINER -- echo "logcollector.remote_commands=1" >> /var/ossec/etc/local_internal_options.conf
+        echo "echo 'logcollector.remote_commands=1' >> /var/ossec/etc/local_internal_options.conf" | pct enter 100
 
         echo "# [$CONTAINER] - Restarting the agent..."
         pct exec $CONTAINER -- systemctl restart wazuh-agent
