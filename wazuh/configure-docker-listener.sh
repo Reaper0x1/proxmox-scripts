@@ -6,10 +6,12 @@ WAZUH_MANAGER_CONTAINER=107
 for CONTAINER in ${CONTAINERS[@]}
 do
     has_agent=$(pct exec $CONTAINER -- test -d /var/ossec && echo "yes" || echo "no")
-    has_docker=$(pct exec $CONTAINER -- docker --version && echo "yes" || echo "no")
-    if [[ $has_agent == "yes" && $CONTAINER != $WAZUH_MANAGER_CONTAINER && !$has_docker ]]; then
+    has_docker=$(pct exec $CONTAINER -- docker --version &> /dev/null && echo "yes" || echo "no")
+    if [[ $has_agent == "yes" && $CONTAINER != $WAZUH_MANAGER_CONTAINER && $has_docker ]]; then
 
         echo "# Configuring $CONTAINER -----------------------------------------------------------------------------------"
+        echo "# Has docker: $has_docker"
+        echo "# Has wazuh agent: $has_agent"
         sleep 1
 
         echo "# [$CONTAINER] - Installing Python and pip..."
