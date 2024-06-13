@@ -5,7 +5,7 @@ format: |
   {
     "content": "```\n{{range . -}}{{$alert := . -}}{{range .Decisions -}}- {{.Value}} will get **{{.Type}}** for the next '{{.Duration}}' for triggering '{{.Scenario}}'\n{{end -}}{{end -}}\n```"
   }  
-url: https://discord.com/api/webhooks/<webhook id>/<webhook token>
+url: <discord-webhook>
 #                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #                                          Your ID+Token Here
 method: POST
