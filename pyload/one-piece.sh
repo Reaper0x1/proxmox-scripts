@@ -1,9 +1,11 @@
 #!/bin/sh
-echo $1 $2 $3 $4 $5 
+echo $1 $2 $3 $4 $5
 
-if [[ "$2" == *"OnePiece"* ]]; then
+result=$(echo "$2" | grep OnePiece)
 
-    echo "Detected One Piece episode"
+if [[ $result ]]; then
+
+    echo "Found One Piece episode"
 
     destDir="/anime/One Piece [tvdb4-81797]/Arc 33 - Egg Head Island"
 
@@ -16,4 +18,6 @@ if [[ "$2" == *"OnePiece"* ]]; then
 
     echo "Episode moved"
 
+else
+    echo "Not a One Piece episode"
 fi
